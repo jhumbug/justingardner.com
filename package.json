@@ -1,0 +1,21 @@
+{
+  "name": "justingardner.com",
+  "version": "1.0.0-rc.1",
+  "description": "website for justin",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jhumbug/justingardner.com.git"
+  },
+  "author": "justin <justin@justingardner.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhumbug/justingardner.com/issues"
+  },
+  "homepage": "https://github.com/jhumbug/justingardner.com#readme"
+}
