@@ -20,6 +20,6 @@ resource "aws_acm_certificate_validation" "site_cert_validation" {
   validation_record_fqdns = [aws_route53_record.site_cert_record.fqdn]
 }
 
-output "certificate_arn" {
+output "ACM_CERT_ARN" {
   value = aws_acm_certificate.site_cert.arn
 }
