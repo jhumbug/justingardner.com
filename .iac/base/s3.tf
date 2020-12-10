@@ -1,3 +1,5 @@
+# empty s3 bucket for site root - {domain}.com
+
 variable "bucket_name" {}
 
 resource "aws_s3_bucket" "site_root" {

@@ -1,4 +1,5 @@
-# create ci/cd user with access keys (for build system)
+# ci/cd user with access keys (for build system)
+
 resource "aws_iam_user" "cicd" {
   name = "srv_${var.app}_cicd"
   tags = local.tags

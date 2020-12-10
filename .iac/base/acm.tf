@@ -1,5 +1,6 @@
 
 # ssl certs for {site}.com and *.{site}.com
+
 resource "aws_acm_certificate" "site_cert" {
   domain_name               = local.domain_name
   subject_alternative_names = ["*.${local.domain_name}"]
