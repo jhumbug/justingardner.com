@@ -6,6 +6,10 @@ resource "aws_cloudfront_distribution" "site" {
   origin {
     domain_name = var.s3_origin
     origin_id   = var.product
+
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    }
   }
 
   enabled             = true
@@ -42,3 +46,8 @@ resource "aws_cloudfront_distribution" "site" {
     ssl_support_method  = "sni-only"
   }
 }
+
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  comment = "Cloudfront access for S3"
+}
+
