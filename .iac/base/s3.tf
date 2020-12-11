@@ -4,21 +4,7 @@ variable "bucket_name" {}
 
 resource "aws_s3_bucket" "site_root" {
   bucket = var.bucket_name
-  acl    = "public-read"
-  policy = <<EOF
-{
-  "Version":"2012-10-17",
-  "Statement":[{
-        "Sid":"PublicReadForGetBucketObjects",
-        "Effect":"Allow",
-          "Principal": "*",
-      "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::${var.bucket_name}/*"]
-    }
-  ]
-}
-EOF
-
+  acl    = "private"
   force_destroy = true
 
   website {
