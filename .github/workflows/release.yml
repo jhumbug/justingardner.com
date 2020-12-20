@@ -1,0 +1,87 @@
+name: Release
+
+# * Deploy to dev on every prerelease tag
+# * Deploy to dev and prod on every release tag
+
+# Required Secrets:
+# * AWS_ACCESS_KEY_ID - The AWS access key ID for deploying to ECR and Fargate
+# * AWS_SECRET_ACCESS_KEY - The AWS secret access key for deploying to ECR and Fargate
+# * SLACK_TOKEN - The Slack access token for posting notifications
+
+on:
+  push:
+    branches-ignore:
+      - '**'
+    tags:
+      - v*
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, '-')
+    env:
+      S3_BUCKET: dev.justingardner.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Export build version
+        run: |
+          version=$(echo $GITHUB_REF | cut -d/ -f 3)
+          echo "VERSION=$version" >> $GITHUB_ENV
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+            **/node_modules
+          key: ${{ github.workflow }}-${{ github.job }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Deploy to S3
+        run: |
+          aws s3 sync out s3://${S3_BUCKET} --exclude "*" --include "_next/*" --cache-control "public, max-age=604800, immutable"
+          aws s3 sync out s3://${S3_BUCKET} --exclude "_next/*" --cache-control "public, max-age=300"
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, '-') == false
+    env:
+      S3_BUCKET: www.justingardner.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Export build version
+        run: |
+          version=$(echo $GITHUB_REF | cut -d/ -f 3)
+          echo "VERSION=$version" >> $GITHUB_ENV
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+            **/node_modules
+          key: ${{ github.workflow }}-${{ github.job }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Deploy to S3
+        run: |
+          aws s3 sync out s3://${S3_BUCKET} --exclude "*" --include "_next/*" --cache-control "public, max-age=604800, immutable"
+          aws s3 sync out s3://${S3_BUCKET} --exclude "_next/*" --cache-control "public, max-age=300"
