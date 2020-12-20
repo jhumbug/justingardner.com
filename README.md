@@ -4,6 +4,7 @@ Website for Justin Gardner
 
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
+- [Infrastructure](#infrastructure)
 - [Environment Variables](#environment-variables)
 - [CI/CD](#cicd)
   - [CI](#ci)
@@ -30,6 +31,16 @@ The following steps will spin up a local dev server running over HTTPS
 - Run `mkcert -install` once to created a new local CA. This allows us to serve localhost over HTTPS.
 - Run `make` to start local dev server at https://localhost.justingardner.com
 - Run `make stop` to stop local dev server
+
+## Infrastructure
+
+The `.iac` folder builds these AWS resources:
+
+- ACM SSL Cert
+- S3 for hosting static files
+- Cloudfront for SSL via S3
+- Route 53 - for DNS routing
+- IAM for CICD
 
 ## Environment Variables
 
