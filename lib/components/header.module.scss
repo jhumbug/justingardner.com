@@ -1,0 +1,12 @@
+@import '../styles/variables';
+
+.header {
+  display: block;
+}
+
+.check {
+  display: inline;
+  svg {
+    height: 20px;
+  }
+}

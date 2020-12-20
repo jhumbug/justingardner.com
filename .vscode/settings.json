@@ -1,0 +1,10 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "npm.packageManager": "yarn",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "scss.lint.validProperties": ["composes"]
+}

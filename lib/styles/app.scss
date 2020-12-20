@@ -1,0 +1,30 @@
+@import 'variables';
+
+:root {
+  --color-grey: #eaeaea;
+  --font-heading: 'Helvetica Neue', Helvetica, 'Letter Gothic', sans-serif;
+}
+
+body {
+  background: $pink;
+}
+
+#__root {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+#__next {
+  align-items: stretch;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  position: relative;
+
+  > main {
+    flex: 1 0 auto;
+  }
+}

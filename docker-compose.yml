@@ -1,0 +1,30 @@
+version: '3.7'
+
+networks:
+  justingardner.com:
+    external: false
+    name: justingardner.com
+
+services:
+  app:
+    build: .
+    init: true
+    networks:
+      - justingardner.com
+    volumes:
+      - .:/usr/local/justingardner/app:delegated
+      - /usr/local/justingardner/app/node_modules
+
+  proxy:
+    image: openresty/openresty:1.15.8.3-alpine-fat
+    restart: always
+    networks:
+      - justingardner.com
+    ports:
+      - '80:80'
+      - '443:443'
+      - '3000:3000'
+    volumes:
+      - ./localhost.justingardner.com+3.pem:/usr/local/openresty/nginx/conf/cert.pem
+      - ./localhost.justingardner.com+3-key.pem:/usr/local/openresty/nginx/conf/key.pem
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
