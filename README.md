@@ -38,7 +38,7 @@ The `.iac` folder builds these AWS resources:
 
 - ACM SSL Cert
 - S3 for hosting static files
-- Cloudfront for SSL via S3
+- Cloudfront for caching/SSL cert application
 - Route 53 - for DNS routing
 - IAM for CICD
 
